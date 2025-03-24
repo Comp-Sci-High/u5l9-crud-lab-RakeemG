@@ -29,14 +29,22 @@ const Country = mongoose.model("Country", countrySchema, "Countries");
 
 
 // Create a GET route for "/" that renders countries.ejs with every country from the Countries collection (1 point)
-
-
+app.get("/", async (req, res) => {
+  const countries = await Country.find({});
+  res.render("countries", { countries });
+});
 // Go to countries.ejs and follow the tasks there (2 points)
 
 
 // Create a dynamic PATCH route handler for "/update/{name}" that modifies the population of the country specified in the path (3 points)
 // Test this route on post man
 
+app.patch("/update/:name", async (req, res) => {
+  const updatedCountry = await Country.findOneAndUpdate(
+    { country: req.params.name },
+    { population: req.body.population },
+    { new: true }
+  );
 
 
 // Create a DELETE route handler for "/delete/country" that deletes a country of your choice (3 points)
